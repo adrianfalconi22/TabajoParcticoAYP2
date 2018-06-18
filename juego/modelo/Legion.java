@@ -11,6 +11,8 @@ public class Legion extends Unidad {
 	private int auxiliares;
 	private int legionarios;
 	private int centuriones;
+	double danio = 0;
+	double vidaTotal;
 
 	public Legion(String nombre) {
 		this.nombreLegion = nombre;
@@ -45,7 +47,7 @@ public class Legion extends Unidad {
 	}
 
 	public void calcularDanio() {
-		double danio = 0;
+	
 		for (Unidad unidad : unidades) {
 			if (unidad.estaVivo()) {
 				danio += unidad.getDanio();
@@ -55,6 +57,7 @@ public class Legion extends Unidad {
 		super.setDanio(danio);
 
 	}
+	
 	
 	
 
@@ -100,18 +103,13 @@ public class Legion extends Unidad {
 				auxiliares++;
 			}
 
-			Jugador.restarPuntosParaComprar(soldado, cantidad); // Ojo que el nombre de
-														// este metodo no es muy
-														// descriptivo
-
 		} else if (soldado.equals(TipoUnidad.LEGIONARIO)) {
 
 			for (int i = 0; i < cantidad; i++) {
 				aniadirUnidad(new Legionario());
 				legionarios++;
 			}
-			Jugador.restarPuntosParaComprar(soldado, cantidad); // Ademas esta en todos los
-														// if
+			
 
 		} else if (soldado.equals(TipoUnidad.CENTURION)) {
 
@@ -120,15 +118,29 @@ public class Legion extends Unidad {
 				centuriones++;
 			}
 
-			Jugador.restarPuntosParaComprar(soldado, cantidad);
+			
 		}
-		
+
+		Jugador.restarPuntosParaComprar(soldado, cantidad);
 
 	}
 
 	public void setNombre(String nombre) {
 		this.nombreLegion = nombre;
 		
+	}
+
+	public void atacar(Legion legionAtacada) {
+		double vidaActual = legionAtacada.getPuntosDeVidaTotal();
+		vidaActual -= danio;
+		
+	}
+	public double getPuntosDeVidaTotal() {
+
+		for (Unidad uni : unidades) {
+			vidaTotal += uni.getVida();
+		}
+		return vidaTotal;
 	}
 
 }

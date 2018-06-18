@@ -3,7 +3,7 @@ package modelo;
 public class Jugador {
 
 	private String nombre;
-	private static Ejercito ejercito; // Segun el enunciado, los ejercitos se almacenan
+	private  Legion legion; // Segun el enunciado, los ejercitos se almacenan
 								// en memoria como un Composite. Yo volaria la
 								// clase y usaria una legion.
 	private static int puntosParaComprar = 500000;
@@ -32,17 +32,17 @@ public class Jugador {
 		return nombre;
 	}
 
-	public static Ejercito getEjercito() {
-		return ejercito;
+	public Legion getLegion() {
+		return legion;
 	}
 
-	public void setEjercito(String nombreEjercito) throws ErrorNombreInvalido {
-		if (nombreEjercito.equals("") || nombreEjercito == null) {
+	public void setLegion(String nombreLegion) throws ErrorNombreInvalido {
+		if (nombreLegion.equals("") || nombreLegion == null) {
 			throw new ErrorNombreInvalido();
 
 		}
 
-		ejercito = new Ejercito(nombreEjercito);
+		legion = new Legion(nombreLegion);
 	}
 
 	public int tirarDado() {

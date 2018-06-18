@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-import controller.Controller;
-
 // Habria que validar las entradas, sobre todo cuando se piden numeros (pongo otra cosa y rompe)
 public class MainJuego {
 
@@ -43,14 +41,14 @@ public class MainJuego {
 			br = new BufferedReader(new FileReader(archivo));
 			String line = br.readLine();
 			separador = " ,";
-			Double precio = contador_Total(line, separador);
+			Double precio = contadorTotal(line, separador);
 			totalesPorPrecio.add(precio);
 
 			archivo = new File("DosLegionarios.FPC");
 			br = new BufferedReader(new FileReader(archivo));
 			line = br.readLine();
 			separador = " ;";
-			precio = contador_Total(line, separador);
+			precio = contadorTotal(line, separador);
 			totalesPorPrecio.add(precio);
 
 		} catch (Exception e) {
@@ -109,8 +107,8 @@ public class MainJuego {
 			System.out.println(jugadorQueArmaPrimero.getNombre()
 					+ " arma tu ejercito\n");
 			System.out.println("ingresa el nombre de tu ejercito\n");
-			String nombreEjercito = scan.nextLine();
-			Ejercito nombreEjercito1 = new Ejercito(nombreEjercito);
+			String nombreEjercitoUno = scan.nextLine();
+			Legion nombreEjercito1 = new Legion(nombreEjercitoUno);//tendria que seer legion
 
 			System.out
 					.println(jugadorQueArmaPrimero.getNombre()
@@ -217,10 +215,11 @@ public class MainJuego {
 			System.out.println(jugadorQueArmaSegundo.getNombre()
 					+ " arma tu ejercito");
 
-			String nombreEjercito = scan.nextLine();
-			Ejercito nombreEjercito2 = new Ejercito(nombreEjercito);
+			System.out.println("ingresa el nombre de tu ejercito\n");
+			String nombreEjercitoDos = scan.nextLine();
+			Legion nombreEjercito2 = new Legion(nombreEjercitoDos);
 			System.out
-					.println(jugadorQueArmaPrimero.getNombre()
+					.println(jugadorQueArmaSegundo.getNombre()
 							+ " arma tu ejercito "
 							+ nombreEjercito2.getNombre() + "\n");
 
@@ -315,14 +314,15 @@ public class MainJuego {
 						.println(jugadorQueArmaSegundo.getPuntosParaComprar());
 
 			}
-		} while (opcion != 5
-				|| jugadorQueArmaSegundo.getPuntosParaComprar() <= 0);
+		} while (opcion != 5);
 
-		System.out.println("empieza a tacar el jugador "
+		System.out.println("empieza a atacar el jugador "
 				+ jugadorQueArmaSegundo.getNombre());
 		
-		jugadorQueArmaSegundo.ge
-
+		System.out.println("presione una tecla para atacar");
+		String ataque = scan.next();
+		jugadorQueArmaSegundo.getLegion().atacar(jugadorQueArmaPrimero.getLegion());
+		
 	}
 
 	public static void creacionLegion(String line, String separador)
@@ -342,6 +342,7 @@ public class MainJuego {
 
 				legion.comprar(TipoUnidad.AUXILIAR,
 						Integer.parseInt(st.nextToken()));
+				
 			} else if (contador == 3) {
 
 				legion.comprar(TipoUnidad.LEGIONARIO,
@@ -356,34 +357,34 @@ public class MainJuego {
 		}
 	}
 
-	public static Double contador_Total(String line, String separador) {
+	public static double contadorTotal(String line, String separador) {
 		StringTokenizer st = new StringTokenizer(line, separador);
 		int contador = 0;
-		Double costo_por_linea;
-		costo_por_linea = 0D;
+		double costoPorLinea;
+		costoPorLinea = 0;
 		while (st.hasMoreTokens()) {
 			if (contador == 0 || contador == 1) {
 				st.nextToken();
 
 			} else if (contador == 2) {
-				Double aux_costo = new Auxiliar().getCosto()
+				double aux_costo = new Auxiliar().getCosto()
 						* Integer.parseInt(st.nextToken());
-				costo_por_linea = costo_por_linea + aux_costo;
+				costoPorLinea = costoPorLinea + aux_costo;
 
 			} else if (contador == 3) {
-				Double leg_costo = new Legionario().getCosto()
+				double leg_costo = new Legionario().getCosto()
 						* Integer.parseInt(st.nextToken());
-				costo_por_linea = costo_por_linea + leg_costo;
+				costoPorLinea = costoPorLinea + leg_costo;
 
 			} else if (contador == 4) {
 				Double cent_costo = new Centurion().getCosto()
 						* Integer.parseInt(st.nextToken());
-				costo_por_linea = costo_por_linea + cent_costo;
+				costoPorLinea = costoPorLinea + cent_costo;
 
 			}
 
 			contador++;
 		}
-		return costo_por_linea;
+		return costoPorLinea;
 	}
 }
