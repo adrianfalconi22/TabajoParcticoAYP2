@@ -8,12 +8,7 @@ public class Ejercito {
 	private List<Unidad> unidades = new LinkedList<>();
 	private String nombre;
 	private double vidaTotal;
-
-	public Ejercito(String nombreEjercito) throws ErrorNombreInvalido {
-		this.nombre = nombreEjercito;
-
-	}
-
+	
 	public double getPuntosDeVidaTotal() {
 
 		for (Unidad uni : unidades) {
@@ -37,6 +32,10 @@ public class Ejercito {
 
 	public String getNombre() {
 		return nombre;
+	}
+	
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public void atacar(Ejercito ejercitoContrario) {

@@ -106,14 +106,6 @@ public class MainJuego {
 		do {
 			System.out.println(jugadorQueArmaPrimero.getNombre()
 					+ " arma tu ejercito\n");
-			System.out.println("ingresa el nombre de tu ejercito\n");
-			String nombreEjercitoUno = scan.nextLine();
-			Legion nombreEjercito1 = new Legion(nombreEjercitoUno);//tendria que seer legion
-
-			System.out
-					.println(jugadorQueArmaPrimero.getNombre()
-							+ " arma tu ejercito "
-							+ nombreEjercito1.getNombre() + "\n");
 
 			System.out.println("Eige una opcion\n"
 					+ "1: elegir ejercito pre armado\n"
@@ -147,7 +139,7 @@ public class MainJuego {
 						String line = br.readLine();
 						separador = " ,";
 
-						creacionLegion(line, separador);
+						creacionLegion(line, separador, jugadorQueArmaPrimero);
 
 					} catch (Exception e) {
 						// mandar exception
@@ -166,7 +158,7 @@ public class MainJuego {
 
 						String line = br.readLine();
 						separador = " ;";
-						creacionLegion(line, separador);
+						creacionLegion(line, separador, jugadorQueArmaPrimero);
 
 					} catch (Exception e) {
 						// mandar exception
@@ -215,14 +207,6 @@ public class MainJuego {
 			System.out.println(jugadorQueArmaSegundo.getNombre()
 					+ " arma tu ejercito");
 
-			System.out.println("ingresa el nombre de tu ejercito\n");
-			String nombreEjercitoDos = scan.nextLine();
-			Legion nombreEjercito2 = new Legion(nombreEjercitoDos);
-			System.out
-					.println(jugadorQueArmaSegundo.getNombre()
-							+ " arma tu ejercito "
-							+ nombreEjercito2.getNombre() + "\n");
-
 			System.out.println("Eige una opcion\n"
 					+ "1: elegir ejercito pre armado\n"
 					+ "2: comprar soldados auxiliares\n"
@@ -254,7 +238,7 @@ public class MainJuego {
 						String line = br.readLine();
 						separador = " ,";
 
-						creacionLegion(line, separador);
+						creacionLegion(line, separador, jugadorQueArmaSegundo);
 
 					} catch (Exception e) {
 						// mandar exception
@@ -273,7 +257,7 @@ public class MainJuego {
 
 						String line = br.readLine();
 						separador = " ;";
-						creacionLegion(line, separador);
+						creacionLegion(line, separador, jugadorQueArmaSegundo);
 
 					} catch (Exception e) {
 						// mandar exception
@@ -318,15 +302,17 @@ public class MainJuego {
 
 		System.out.println("empieza a atacar el jugador "
 				+ jugadorQueArmaSegundo.getNombre());
-		
+
 		System.out.println("presione una tecla para atacar");
 		String ataque = scan.next();
-		jugadorQueArmaSegundo.getLegion().atacar(jugadorQueArmaPrimero.getLegion());
-		
+		jugadorQueArmaSegundo.getEjercito().atacar(
+				jugadorQueArmaPrimero.getEjercito());
+
 	}
 
-	public static void creacionLegion(String line, String separador)
-			throws NumberFormatException, ErrorNombreInvalido {
+	public static void creacionLegion(String line, String separador,
+			Jugador jugador) throws NumberFormatException,
+			ErrorNombreInvalido {
 
 		StringTokenizer st = new StringTokenizer(line, separador);
 		String text1 = "";
@@ -341,20 +327,21 @@ public class MainJuego {
 			} else if (contador == 2) {
 
 				legion.comprar(TipoUnidad.AUXILIAR,
-						Integer.parseInt(st.nextToken()));
-				
+						Integer.parseInt(st.nextToken()), jugador);
+
 			} else if (contador == 3) {
 
 				legion.comprar(TipoUnidad.LEGIONARIO,
-						Integer.parseInt(st.nextToken()));
+						Integer.parseInt(st.nextToken()), jugador);
 			} else if (contador == 4) {
 
 				legion.comprar(TipoUnidad.CENTURION,
-						Integer.parseInt(st.nextToken()));
+						Integer.parseInt(st.nextToken()), jugador);
 			}
 			contador++;
 
 		}
+		jugador.getEjercito().aniadirUnidad(legion);
 	}
 
 	public static double contadorTotal(String line, String separador) {

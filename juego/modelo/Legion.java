@@ -7,7 +7,7 @@ public class Legion extends Unidad {
 
 	private List<Unidad> unidades = new LinkedList<>();
 	private String nombreLegion;
-	private int cantidadDeSoldados = 0; 
+	private int cantidadDeSoldados = 0;
 	private int auxiliares;
 	private int legionarios;
 	private int centuriones;
@@ -21,7 +21,6 @@ public class Legion extends Unidad {
 	public Legion() {
 
 	}
-
 
 	public String getNombre() {
 		return nombreLegion;
@@ -47,7 +46,7 @@ public class Legion extends Unidad {
 	}
 
 	public void calcularDanio() {
-	
+
 		for (Unidad unidad : unidades) {
 			if (unidad.estaVivo()) {
 				danio += unidad.getDanio();
@@ -57,18 +56,16 @@ public class Legion extends Unidad {
 		super.setDanio(danio);
 
 	}
-	
-	
-	
 
-	/*
-	 * public void calcularVida() { double vida = 0; for (Unidad unidad :
-	 * unidades) { vida += unidad.getVida();
-	 * 
-	 * } super.setVida(vida);
-	 * 
-	 * }
-	 */
+	public void calcularVida() {
+		double vida = 0;
+		for (Unidad unidad : unidades) {
+			vida += unidad.getVida();
+
+		}
+		super.setVida(vida);
+
+	}
 
 	public void eliminarSoldado() {
 		for (Unidad unidad : unidades) {
@@ -92,8 +89,9 @@ public class Legion extends Unidad {
 				+ auxiliares + ", legionarios=" + legionarios
 				+ ", centuriones=" + centuriones + "]";
 	}
-	public void comprar(TipoUnidad soldado, int cantidad)
-			throws ErrorNombreInvalido {
+
+	public void comprar(TipoUnidad soldado, int cantidad,
+			Jugador jugadorQueCompra) throws ErrorNombreInvalido {
 
 		if (soldado.equals(TipoUnidad.AUXILIAR)) {
 
@@ -109,7 +107,6 @@ public class Legion extends Unidad {
 				aniadirUnidad(new Legionario());
 				legionarios++;
 			}
-			
 
 		} else if (soldado.equals(TipoUnidad.CENTURION)) {
 
@@ -118,23 +115,27 @@ public class Legion extends Unidad {
 				centuriones++;
 			}
 
-			
 		}
 
-		Jugador.restarPuntosParaComprar(soldado, cantidad);
+		jugadorQueCompra.restarPuntosParaComprar(soldado, cantidad);
 
 	}
 
 	public void setNombre(String nombre) {
 		this.nombreLegion = nombre;
-		
+
 	}
 
-	public void atacar(Legion legionAtacada) {
-		double vidaActual = legionAtacada.getPuntosDeVidaTotal();
-		vidaActual -= danio;
-		
+	public void atacar(Legion legionContraria) {
+		legionContraria.recibirAtaque(getDanio());
+
 	}
+
+	private void recibirAtaque(double danio) {
+		vidaTotal -= danio;
+
+	}
+
 	public double getPuntosDeVidaTotal() {
 
 		for (Unidad uni : unidades) {
