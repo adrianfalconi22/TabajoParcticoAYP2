@@ -6,7 +6,7 @@ public class Jugador {
 	private  Ejercito ejercito; // Segun el enunciado, los ejercitos se almacenan
 								// en memoria como un Composite. Yo volaria la
 								// clase y usaria una legion.
-	private static int puntosParaComprar = 500000;
+	private int puntosParaComprar = 500000;
 	int valorDado;
 	private Unidad unidad;
 

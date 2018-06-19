@@ -70,19 +70,17 @@ public class MainJuego {
 			System.out.println(e.getMessage());
 		}
 
-		System.out
-				.println("Turno de tirar el dado de " + j1.getNombre() + "\n");
+		System.out.println("Turno de tirar el dado de " + j1.getNombre());
 		System.out.println("apreta un boton para tirar el dado\n");
 		botonTirar = scan.nextLine();
 		resultado1 = j1.tirarDado();
-		System.out.println(resultado1);
+		System.out.println(resultado1 + "\n");
 
-		System.out
-				.println("Turno de tirar el dado de " + j2.getNombre() + "\n");
+		System.out.println("Turno de tirar el dado de " + j2.getNombre());
 		System.out.println("apreta un boton para tirar el dado\n");
 		botonTirar = scan.nextLine();
 		resultado2 = j2.tirarDado();
-		System.out.println(resultado2);
+		System.out.println(resultado2 + "\n");
 
 		// El if y el ultimo else son exactamente iguales. Ademas no hacen falta
 		// 3 syso, con uno que sea
@@ -308,11 +306,14 @@ public class MainJuego {
 		jugadorQueArmaSegundo.getEjercito().atacar(
 				jugadorQueArmaPrimero.getEjercito());
 
+		System.out.println(jugadorQueArmaPrimero.getEjercito()
+				.getPuntosDeVidaTotal());
+
 	}
 
+	/** una vez leido el archivo crea la legion con sus soldados */
 	public static void creacionLegion(String line, String separador,
-			Jugador jugador) throws NumberFormatException,
-			ErrorNombreInvalido {
+			Jugador jugador) throws NumberFormatException, ErrorNombreInvalido {
 
 		StringTokenizer st = new StringTokenizer(line, separador);
 		String text1 = "";
@@ -344,6 +345,7 @@ public class MainJuego {
 		jugador.getEjercito().aniadirUnidad(legion);
 	}
 
+	/** suma el precio de los soldados de la legion */
 	public static double contadorTotal(String line, String separador) {
 		StringTokenizer st = new StringTokenizer(line, separador);
 		int contador = 0;
@@ -354,19 +356,19 @@ public class MainJuego {
 				st.nextToken();
 
 			} else if (contador == 2) {
-				double aux_costo = new Auxiliar().getCosto()
+				double auxiliarCosto = new Auxiliar().getCosto()
 						* Integer.parseInt(st.nextToken());
-				costoPorLinea = costoPorLinea + aux_costo;
+				costoPorLinea = costoPorLinea + auxiliarCosto;
 
 			} else if (contador == 3) {
-				double leg_costo = new Legionario().getCosto()
+				double legionarioCosto = new Legionario().getCosto()
 						* Integer.parseInt(st.nextToken());
-				costoPorLinea = costoPorLinea + leg_costo;
+				costoPorLinea = costoPorLinea + legionarioCosto;
 
 			} else if (contador == 4) {
-				Double cent_costo = new Centurion().getCosto()
+				Double centurionCosto = new Centurion().getCosto()
 						* Integer.parseInt(st.nextToken());
-				costoPorLinea = costoPorLinea + cent_costo;
+				costoPorLinea = costoPorLinea + centurionCosto;
 
 			}
 
