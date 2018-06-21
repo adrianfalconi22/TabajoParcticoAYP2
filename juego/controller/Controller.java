@@ -222,7 +222,7 @@ public class Controller {
 	}
 
 	
-
+	/** leo el archivo en extension FPC */
 	public void mostrar2(Jugador jugador) throws IOException {
 		try {
 			br = new BufferedReader(new FileReader("Legiones.FPC"));
@@ -239,7 +239,7 @@ public class Controller {
 			}
 		}
 	}
-
+	/** leo los archivos para saber el precio de cada legion*/
 	public void lector() {
 
 		try {
@@ -282,7 +282,7 @@ public class Controller {
 						* Integer.parseInt(st.nextToken());
 				costoPorLinea = costoPorLinea + legionarioCosto;
 
-			} else if (contador == 2) {
+			} else if (contador == 3) {
 				Double centurionCosto = new Centurion().getCosto()
 						* Integer.parseInt(st.nextToken());
 				costoPorLinea = costoPorLinea + centurionCosto;
@@ -326,6 +326,7 @@ public class Controller {
 		jugador.getEjercito().aniadirUnidad(legion);
 	}
 
+	/** ataco y me fijo la vida que tiene cada ejercito */
 	public void ataque() {
 
 		do {
