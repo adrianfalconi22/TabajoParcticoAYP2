@@ -71,10 +71,10 @@ public class Juego {
 	}
 
 	public boolean JuegoTerminado() {
-		if (jugadores[0].getEjercito().getPuntosDeVidaTotal() <= 0) {
+		if (jugadores[0].getLegion().getVidaDeLaLegion() <= 0) {
 			juegoTerminado = true;
 			ganador = jugadores[1].getNombre();
-		} else if (jugadores[1].getEjercito().getPuntosDeVidaTotal() <= 0) {
+		} else if (jugadores[1].getLegion().getVidaDeLaLegion() <= 0) {
 			juegoTerminado = true;
 			ganador = jugadores[0].getNombre();
 		}

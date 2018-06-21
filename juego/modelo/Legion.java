@@ -14,7 +14,7 @@ public class Legion extends Unidad {
 	private int legionarios;
 	private int centuriones;
 	double danio = 0;
-	double vidaTotal;
+	double vida = 0;
 
 	public Legion(String nombre) {
 		this.nombreLegion = nombre;
@@ -59,8 +59,12 @@ public class Legion extends Unidad {
 
 	}
 
+	public double getVidaDeLaLegion() {
+		return vida;
+	}
+
 	public void calcularVida() {
-		double vida = 0;
+
 		for (Unidad unidad : unidades) {
 			vida += unidad.getVida();
 
@@ -72,7 +76,7 @@ public class Legion extends Unidad {
 	public void eliminarSoldado() {
 		for (Unidad unidad : unidades) {
 			if (!unidad.estaVivo()) { // Si quien no esta vivo?
-
+				unidades.remove(unidad);
 			}
 		}
 	}
@@ -87,39 +91,8 @@ public class Legion extends Unidad {
 
 	@Override
 	public String toString() {
-		return nombreLegion + ", " + auxiliares + ", " + legionarios + ", "
-				+ centuriones ;
-	}
-
-	public void comprar(TipoUnidad soldado, int cantidad,
-			Jugador jugadorQueCompra) throws ErrorNombreInvalido {
-
-		if (soldado.equals(TipoUnidad.AUXILIAR)) {
-
-			for (int i = 0; i < cantidad; i++) {
-
-				aniadirUnidad(new Auxiliar());
-				auxiliares++;
-			}
-
-		} else if (soldado.equals(TipoUnidad.LEGIONARIO)) {
-
-			for (int i = 0; i < cantidad; i++) {
-				aniadirUnidad(new Legionario());
-				legionarios++;
-			}
-
-		} else if (soldado.equals(TipoUnidad.CENTURION)) {
-
-			for (int i = 0; i < cantidad; i++) {
-				aniadirUnidad(new Centurion());
-				centuriones++;
-			}
-
-		}
-
-		jugadorQueCompra.restarPuntosParaComprar(soldado, cantidad);
-
+		return nombreLegion + " ," + auxiliares + " ," + legionarios + " ,"
+				+ centuriones;
 	}
 
 	public void setNombre(String nombre) {
@@ -128,21 +101,19 @@ public class Legion extends Unidad {
 	}
 
 	public void atacar(Legion legionContraria) {
-		legionContraria.recibirAtaque(getDanio());
+		calcularDanio();
+		legionContraria.recibirAtaque(danio);
 
 	}
 
 	private void recibirAtaque(double danio) {
-		vidaTotal -= danio;
+		vida -= danio;
 
 	}
 
-	public double getPuntosDeVidaTotal() {
-
-		for (Unidad uni : unidades) {
-			vidaTotal += uni.getVida();
-		}
-		return vidaTotal;
+	public void aumentarAuxiliares() {
+	auxiliares++;
+		
 	}
 
 }
