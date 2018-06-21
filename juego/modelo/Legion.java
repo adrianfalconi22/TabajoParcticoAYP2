@@ -3,6 +3,8 @@ package modelo;
 import java.util.LinkedList;
 import java.util.List;
 
+import controller.Controller;
+
 public class Legion extends Unidad {
 
 	private List<Unidad> unidades = new LinkedList<>();
@@ -85,9 +87,8 @@ public class Legion extends Unidad {
 
 	@Override
 	public String toString() {
-		return "ArmadoDeLegion [nombre=" + nombreLegion + ", auxiliares="
-				+ auxiliares + ", legionarios=" + legionarios
-				+ ", centuriones=" + centuriones + "]";
+		return nombreLegion + ", " + auxiliares + ", " + legionarios + ", "
+				+ centuriones ;
 	}
 
 	public void comprar(TipoUnidad soldado, int cantidad,

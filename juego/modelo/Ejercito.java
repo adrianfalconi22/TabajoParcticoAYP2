@@ -8,7 +8,7 @@ public class Ejercito {
 	private List<Unidad> unidades = new LinkedList<>();
 	private String nombre;
 	private double vidaTotal;
-	
+
 	public double getPuntosDeVidaTotal() {
 
 		for (Unidad uni : unidades) {
@@ -33,7 +33,7 @@ public class Ejercito {
 	public String getNombre() {
 		return nombre;
 	}
-	
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -52,4 +52,7 @@ public class Ejercito {
 		unidades.add(unidad);
 	}
 
+	public double vida() {
+		return vidaTotal;
+	}
 }
