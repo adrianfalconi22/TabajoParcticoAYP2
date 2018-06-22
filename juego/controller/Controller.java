@@ -34,7 +34,6 @@ public class Controller {
 	int resultado1;
 	int resultado2;
 	String botonTirar;
-	static double costoPorLinea = 0;
 
 	public void iniciar() throws IOException, ErrorAlLeerElArchivo,
 			ErrorNombreInvalido {
@@ -209,7 +208,7 @@ public class Controller {
 	}
 
 	/** leo el archivo en extension FPC */
-	public void mostrar2(Jugador jugador) throws IOException {
+	public void mostrar3(Jugador jugador) throws IOException {
 		try {
 			br = new BufferedReader(new FileReader("Legiones.FPC"));
 
@@ -227,7 +226,7 @@ public class Controller {
 	}
 
 	/** leo el archivo en extension FC */
-	public void mostrar3(Jugador jugador) throws IOException {
+	public void mostrar2(Jugador jugador) throws IOException {
 		br = new BufferedReader(new FileReader("Legiones.FC"));
 
 		String line = br.readLine();
@@ -276,6 +275,7 @@ public class Controller {
 	public static double contadorTotal(String line, String separador) {
 		StringTokenizer st = new StringTokenizer(line, separador);
 		int contador = 0;
+		double costoPorLinea = 0;
 		while (st.hasMoreTokens()) {
 			if (contador == 0) {
 				st.nextToken();
@@ -312,8 +312,9 @@ public class Controller {
 		// legion = new Legion();
 		while (st.hasMoreTokens()) {
 			if (contador == 0) {
-				text1 = text1 + "" + st.nextToken();
 
+				text1 = text1 + "" + st.nextToken();
+				jugador.getLegion().setNombre(text1);
 			} else if (contador == 1) {
 				jugador.comprar(TipoUnidad.AUXILIAR,
 						Integer.parseInt(st.nextToken()));
@@ -348,7 +349,7 @@ public class Controller {
 			System.out.println("vida de la legion del jugador "
 					+ jugadorQueArmaPrimero.getNombre());
 			System.out.println(String.format("%.2f", jugadorQueArmaPrimero
-					.getLegion().getVidaDeLaLegion()));
+					.getLegion().getVida()));
 			System.out.println(jugadorQueArmaPrimero.getNombre()
 					+ " presione una tecla para atacar");
 
@@ -361,7 +362,7 @@ public class Controller {
 			System.out.println("vida de la legion del jugador"
 					+ jugadorQueArmaSegundo.getNombre());
 			System.out.println(String.format("%.2f", jugadorQueArmaSegundo
-					.getLegion().getVidaDeLaLegion()));
+					.getLegion().getVida()));
 
 		} while (jugadorQueArmaPrimero.getLegion().getUnidades().size() == 0
 				&& jugadorQueArmaSegundo.getLegion().getUnidades().size() == 0);

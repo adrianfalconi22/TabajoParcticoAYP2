@@ -9,10 +9,10 @@ public class Legion extends Unidad {
 
 	private List<Unidad> unidades = new LinkedList<>();
 	private String nombreLegion;
-	private int cantidadDeSoldados = 0;
 	private int auxiliares;
 	private int legionarios;
 	private int centuriones;
+	private int cantidadDeSoldados = 0;
 	double danio = 0;
 	double vida = 0;
 
@@ -34,6 +34,7 @@ public class Legion extends Unidad {
 
 	public void aniadirUnidad(Unidad unidad) {
 		unidades.add(unidad);
+
 		cantidadDeSoldados++;
 	}
 
@@ -47,16 +48,16 @@ public class Legion extends Unidad {
 
 	}
 
-	public void calcularDanio() {
+	public double calcularDanio() {
 
 		for (Unidad unidad : unidades) {
 			if (unidad.estaVivo()) {
 				danio += unidad.getDanio();
 			}
-
+			super.setDanio(danio);
 		}
-		super.setDanio(danio);
 
+		return danio;
 	}
 
 	public double getVidaDeLaLegion() {
@@ -66,8 +67,10 @@ public class Legion extends Unidad {
 	public void calcularVida() {
 
 		for (Unidad unidad : unidades) {
-			vida += unidad.getVida();
+			if (unidad.estaVivo()) {
+				vida += unidad.getVida();
 
+			}
 		}
 		super.setVida(vida);
 
@@ -101,19 +104,30 @@ public class Legion extends Unidad {
 	}
 
 	public void atacar(Legion legionContraria) {
-		calcularDanio();
-		legionContraria.recibirAtaque(danio);
+		
+		legionContraria.recibirAtaque(calcularDanio());
 
 	}
 
 	private void recibirAtaque(double danio) {
 		vida -= danio;
+		super.setVida(vida);
 
 	}
 
 	public void aumentarAuxiliares() {
-	auxiliares++;
-		
+		auxiliares++;
+
+	}
+
+	public void aumentarLegionarios() {
+		legionarios++;
+
+	}
+
+	public void aumentarCenturiones() {
+		centuriones++;
+
 	}
 
 }

@@ -1,14 +1,11 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import modelo.ErrorNombreInvalido;
 import modelo.Jugador;
-import modelo.Legion;
 import modelo.TipoUnidad;
 
 import org.junit.Test;
-import org.junit.Assert;
 
 public class TestJugador {
 
@@ -62,30 +59,5 @@ public class TestJugador {
 		assertEquals(498000, jugador2.getPuntosParaComprar());
 	}
 
-	@Test
-	public void cantidadDeunidadesDeLaLegion() throws ErrorNombreInvalido {
-		Jugador jugador2 = new Jugador("daniel");
-
-		jugador2.comprar(TipoUnidad.AUXILIAR, 10);
-		jugador2.comprar(TipoUnidad.LEGIONARIO, 20);
-		jugador2.comprar(TipoUnidad.CENTURION, 10);
-		assertEquals(40, jugador2.getLegion().getUnidades().size());
-	}
-
-	@Test
-	public void testAtaque() throws ErrorNombreInvalido {
-		Jugador jugador2 = new Jugador("daniel");
-		Jugador jugador1 = new Jugador("adrian");
-
-		jugador2.comprar(TipoUnidad.AUXILIAR, 10);
-		jugador2.comprar(TipoUnidad.LEGIONARIO, 20);
-		jugador2.comprar(TipoUnidad.CENTURION, 40);
-
-		jugador1.comprar(TipoUnidad.AUXILIAR, 10);
-
-		jugador2.getLegion().atacar(jugador1.getLegion());
-
-		int vidaJugadorUno = (int) jugador1.getLegion().getVidaDeLaLegion();
-		assertTrue(vidaJugadorUno == 6997 || vidaJugadorUno == 6995);
-	}
+	
 }

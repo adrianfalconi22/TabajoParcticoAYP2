@@ -79,14 +79,14 @@ public class Jugador {
 
 			for (int i = 0; i < cantidad; i++) {
 				legion.aniadirUnidad(new Legionario());
-
+				legion.aumentarLegionarios();
 			}
 
 		} else if (soldado.equals(TipoUnidad.CENTURION)) {
 
 			for (int i = 0; i < cantidad; i++) {
 				legion.aniadirUnidad(new Centurion());
-
+				legion.aumentarCenturiones();
 			}
 
 		}
