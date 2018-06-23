@@ -312,7 +312,6 @@ public class Controller {
 		// legion = new Legion();
 		while (st.hasMoreTokens()) {
 			if (contador == 0) {
-
 				text1 = text1 + "" + st.nextToken();
 				jugador.getLegion().setNombre(text1);
 			} else if (contador == 1) {
@@ -331,7 +330,7 @@ public class Controller {
 			contador++;
 
 		}
-		jugador.getLegion().calcularVida();
+		jugador.getLegion().calcularVidaTotalDeLaLegion();
 	}
 
 	/** ataco y me fijo la vida que tiene cada ejercito */
@@ -342,33 +341,33 @@ public class Controller {
 					+ " presione una tecla para atacar");
 
 			String ataque1 = scan.next();
-			jugadorQueArmaSegundo.getLegion().atacar(
+			jugadorQueArmaSegundo.getLegion().atacarLegion(
 					jugadorQueArmaPrimero.getLegion());
 			System.out.println(String.format("%.2f", jugadorQueArmaSegundo
-					.getLegion().getDanio()));
+					.getLegion().getDaño()));
 			System.out.println("vida de la legion del jugador "
 					+ jugadorQueArmaPrimero.getNombre());
 			System.out.println(String.format("%.2f", jugadorQueArmaPrimero
-					.getLegion().getVida()));
+					.getLegion().calcularVidaTotalDeLaLegion()));
 			System.out.println(jugadorQueArmaPrimero.getNombre()
 					+ " presione una tecla para atacar");
 
 			String ataque2 = scan.next();
-			jugadorQueArmaPrimero.getLegion().atacar(
+			jugadorQueArmaPrimero.getLegion().atacarLegion(
 					jugadorQueArmaSegundo.getLegion());
 			System.out.println(String.format("%.2f", jugadorQueArmaPrimero
-					.getLegion().getDanio()));
+					.getLegion().getDaño()));
 
 			System.out.println("vida de la legion del jugador"
 					+ jugadorQueArmaSegundo.getNombre());
 			System.out.println(String.format("%.2f", jugadorQueArmaSegundo
-					.getLegion().getVida()));
+					.getLegion().calcularVidaTotalDeLaLegion()));
 
-		} while (jugadorQueArmaPrimero.getLegion().getUnidades().size() == 0
-				&& jugadorQueArmaSegundo.getLegion().getUnidades().size() == 0);
-		if (jugadorQueArmaPrimero.getLegion().getUnidades().size() == 0) {
+		} while (jugadorQueArmaPrimero.getLegion().contarUnidades() == 0
+				&& jugadorQueArmaSegundo.getLegion().contarUnidades() == 0);
+		if (jugadorQueArmaPrimero.getLegion().contarUnidades() == 0) {
 			System.out.println("gano jugador que arma segundo");
-		} else if (jugadorQueArmaSegundo.getLegion().getUnidades().size() == 0) {
+		} else if (jugadorQueArmaSegundo.getLegion().contarUnidades() == 0) {
 			System.out.println("gano el que arma primero");
 		}
 	}

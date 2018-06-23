@@ -35,10 +35,6 @@ public class Jugador {
 		return legion;
 	}
 
-	public void setLegion(String nombre) {
-		legion.setNombre(nombre);
-	}
-
 	public int tirarDado() {
 
 		valorDado = (int) Math.floor(Math.random() * 6 + 1);
@@ -51,14 +47,14 @@ public class Jugador {
 	}
 
 	public void restarPuntosParaComprar(TipoUnidad soldado, int cantidad) {
-		if (soldado.equals(TipoUnidad.AUXILIAR)) {
+		if (soldado == (TipoUnidad.AUXILIAR)) {
 
 			puntosParaComprar -= cantidad * 50;
 
-		} else if (soldado.equals(TipoUnidad.LEGIONARIO)) {
+		} else if (soldado == (TipoUnidad.LEGIONARIO)) {
 			puntosParaComprar -= cantidad * 100;
 
-		} else if (soldado.equals(TipoUnidad.CENTURION)) {
+		} else if (soldado == (TipoUnidad.CENTURION)) {
 
 			puntosParaComprar -= cantidad * 200;
 		}
@@ -71,21 +67,21 @@ public class Jugador {
 
 			for (int i = 0; i < cantidad; i++) {
 
-				legion.aniadirUnidad(new Auxiliar());
+				legion.añadirUnidad(new Auxiliar());
 				legion.aumentarAuxiliares();
 			}
 
 		} else if (soldado.equals(TipoUnidad.LEGIONARIO)) {
 
 			for (int i = 0; i < cantidad; i++) {
-				legion.aniadirUnidad(new Legionario());
+				legion.añadirUnidad(new Legionario());
 				legion.aumentarLegionarios();
 			}
 
 		} else if (soldado.equals(TipoUnidad.CENTURION)) {
 
 			for (int i = 0; i < cantidad; i++) {
-				legion.aniadirUnidad(new Centurion());
+				legion.añadirUnidad(new Centurion());
 				legion.aumentarCenturiones();
 			}
 
@@ -93,5 +89,15 @@ public class Jugador {
 
 		restarPuntosParaComprar(soldado, cantidad);
 
+	}
+
+	public double getVidaDeLaLegion() {
+
+		return legion.calcularVidaTotalDeLaLegion();
+	}
+
+	public double getDañoTotalDeLaLegion() {
+		// TODO Apéndice de método generado automáticamente
+		return legion.getDaño();
 	}
 }

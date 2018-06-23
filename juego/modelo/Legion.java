@@ -1,95 +1,140 @@
 package modelo;
 
 import java.util.LinkedList;
-import java.util.List;
 
 import controller.Controller;
 
 public class Legion extends Unidad {
 
-	private List<Unidad> unidades = new LinkedList<>();
+	protected LinkedList<Unidad> legion;
 	private String nombreLegion;
 	private int auxiliares;
 	private int legionarios;
 	private int centuriones;
-	private int cantidadDeSoldados = 0;
-	double danio = 0;
-	double vida = 0;
-
-	public Legion(String nombre) {
-		this.nombreLegion = nombre;
-	}
 
 	public Legion() {
 
-	}
-
-	public String getNombre() {
-		return nombreLegion;
-	}
-
-	public List<Unidad> getUnidades() {
-		return unidades;
-	}
-
-	public void aniadirUnidad(Unidad unidad) {
-		unidades.add(unidad);
-
-		cantidadDeSoldados++;
-	}
-
-	public void calcularCosto() {
-		double costo = 0;
-		for (Unidad unidad : unidades) {
-			costo += unidad.getCosto();
-
-		}
-		super.setCosto(costo);
+		legion = new LinkedList<>();
 
 	}
 
-	public double calcularDanio() {
+	public double calcularVidaTotalDeLaLegion() {
 
-		for (Unidad unidad : unidades) {
+		double vidaTotal = 0;
+		for (Unidad unidad : legion) {
 			if (unidad.estaVivo()) {
-				danio += unidad.getDanio();
-			}
-			super.setDanio(danio);
-		}
-
-		return danio;
-	}
-
-	public double getVidaDeLaLegion() {
-		return vida;
-	}
-
-	public void calcularVida() {
-
-		for (Unidad unidad : unidades) {
-			if (unidad.estaVivo()) {
-				vida += unidad.getVida();
+				vidaTotal += unidad.getVida();
 
 			}
 		}
-		super.setVida(vida);
 
+		return vidaTotal;
 	}
 
-	public void eliminarSoldado() {
-		for (Unidad unidad : unidades) {
-			if (!unidad.estaVivo()) { // Si quien no esta vivo?
-				unidades.remove(unidad);
-			}
-		}
+	public LinkedList<Unidad> getLegion() {
+
+		return legion;
 	}
 
 	@Override
-	public boolean estaVivo() {
-		if (cantidadDeSoldados <= 0) {
-			return false;
+	public double getDaño() {
+		double daño = 0;
+		double dañoDeCenturiones = 0;
+		for (Unidad unidad : legion) {
+
+			if (unidad.tipo == TipoUnidad.AUXILIAR
+					|| unidad.tipo == TipoUnidad.LEGIONARIO) {
+
+				daño += unidad.getDaño();
+			} else if (unidad.tipo == TipoUnidad.CENTURION) {
+				dañoDeCenturiones += (unidad.getDaño() + ((double) getCantidadDeCenturiones() / 10));
+			}
 		}
-		return true;
+
+		return daño + dañoDeCenturiones;
+	}
+
+	@Override
+	public double getCosto() {
+
+		double costoTotal = 0;
+		for (Unidad unidad : legion) {
+
+			costoTotal += unidad.getCosto();
+		}
+
+		return costoTotal;
+	}
+
+	public int getCantidadDeCenturiones() {
+		int total = 0;
+
+		for (Unidad unidad : legion) {
+
+			if (unidad.tipo == TipoUnidad.CENTURION) {
+				total++;
+			}
+		}
+
+		return total;
+	}
+
+	public void añadirUnidad(Unidad unidad) {
+		legion.add(unidad);
+
+	}
+
+	public void atacarLegion(Legion otraLegion) {
+		double vida = 0;
+		double controladorDeDaño = getDaño();
+
+		for (Unidad unidad : otraLegion.getLegion()) {
+
+			if (unidad.estaVivo() && unidad.tipo == TipoUnidad.AUXILIAR
+					&& controladorDeDaño > 0) {
+
+				if (controladorDeDaño >= 100) {
+					vida = unidad.getVida();
+
+					unidad.setVida(vida);
+					controladorDeDaño = controladorDeDaño - vida;
+				} else if (controladorDeDaño < 100) {
+					unidad.setVida(controladorDeDaño);
+					controladorDeDaño = controladorDeDaño - getDaño();
+
+				}
+
+			} else if (unidad.estaVivo() && !hayAuxiliares()
+					&& unidad.tipo == TipoUnidad.LEGIONARIO
+					&& controladorDeDaño > 0) {
+				if (controladorDeDaño >= 100) {
+					vida = unidad.getVida();
+
+					unidad.setVida(vida);
+					controladorDeDaño = controladorDeDaño - vida;
+				} else if (controladorDeDaño < 100) {
+					unidad.setVida(controladorDeDaño);
+					controladorDeDaño = controladorDeDaño - getDaño();
+
+				}
+
+			} else if (unidad.estaVivo()
+					&& (!hayAuxiliares() && !hayLegionarios())
+					&& unidad.tipo == TipoUnidad.CENTURION
+					&& controladorDeDaño > 0) {
+				if (controladorDeDaño >= 100) {
+					vida = unidad.getVida();
+
+					unidad.setVida(vida);
+					controladorDeDaño = controladorDeDaño - vida;
+				} else if (controladorDeDaño < 100) {
+					unidad.setVida(controladorDeDaño);
+					controladorDeDaño = controladorDeDaño - getDaño();
+
+				}
+			}
+		}
+		//
 	}
 
 	@Override
@@ -98,20 +143,63 @@ public class Legion extends Unidad {
 				+ centuriones;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombreLegion = nombre;
+	public void removerSoldadosMuertos() {
+
+		for (Unidad unidad : legion) {
+
+			if (!unidad.estaVivo()) {
+				legion.remove(unidad);
+			}
+		}
 
 	}
 
-	public void atacar(Legion legionContraria) {
-		
-		legionContraria.recibirAtaque(calcularDanio());
+	private boolean hayAuxiliares() {
 
+		int totalDeAuxiliares = 0;
+
+		for (Unidad unidad : legion) {
+			if (unidad.tipo == TipoUnidad.AUXILIAR) {
+				totalDeAuxiliares++;
+			}
+		}
+
+		return totalDeAuxiliares > 0;
 	}
 
-	private void recibirAtaque(double danio) {
-		vida -= danio;
-		super.setVida(vida);
+	public boolean hayLegionarios() {
+		int totalDeLegionarios = 0;
+
+		for (Unidad unidad : legion) {
+			if (unidad.tipo == (TipoUnidad.LEGIONARIO)) {
+				totalDeLegionarios++;
+			}
+		}
+
+		return totalDeLegionarios > 0;
+	}
+
+	public void imprimirListaDeLaUnidades() {
+		for (Unidad unidad : legion) {
+			System.out.println(unidad.getVida());
+		}
+	}
+
+	public int contarUnidades() {
+
+		int unidades = 0;
+
+		for (Unidad unidad : legion) {
+			if (unidad.estaVivo()) {
+				unidades++;
+			}
+		}
+
+		return unidades;
+	}
+
+	public void setNombre(String text1) {
+		this.nombreLegion = text1;
 
 	}
 
@@ -129,5 +217,4 @@ public class Legion extends Unidad {
 		centuriones++;
 
 	}
-
 }

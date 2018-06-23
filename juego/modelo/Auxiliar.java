@@ -1,35 +1,45 @@
 package modelo;
 
+
 public class Auxiliar extends Unidad {
 
+	private double daño;
+	private int costo;
+
 	public Auxiliar() {
-		super(TipoUnidad.AUXILIAR, 50, 0.7);
+		tipo = TipoUnidad.AUXILIAR;
+		this.daño = 0.7;
+		this.costo=50;
 	}
 
-	/**
-	 * consulta el danio del ataque del auxiliar verificando primero si su
-	 * ataque es efectivo
-	 */
+	public double getVida() {
+
+		return super.getVida();
+	}
+
 	@Override
-	public double getDanio() {
-		if (!ataqueEfectivo()) {
+	public double getDaño() {
+
+		if (!probabilidad()) {
+
+			return daño;
+		} else {
 			return 0;
 		}
-		return getDanio();
 	}
 
-	/*
-	 * @Override public void atacar(Unidad otraUnidadAAtacar) { if
-	 * (ataqueEfectivo()) {
-	 * 
-	 * otraUnidadAAtacar.; }
-	 * 
-	 * }
-	 */
-	/** verifica si el ataque es efectivo */
-	private boolean ataqueEfectivo() {
-		int probabilidad = (int) (Math.random() * 100);
-		return probabilidad >= 50;
+	@Override
+	public double getCosto() {
+		return costo;
+	}
+
+	public void setVida(double daño) {
+		super.setVida(daño);
+	}
+
+	public boolean estaVivo() {
+
+		return super.estaVivo();
 	}
 
 }
