@@ -50,10 +50,6 @@ public class Juego {
 		return jugadores[posicion];
 	}
 
-	public boolean isJuegoTerminado() {
-		return juegoTerminado;
-	}
-
 	public Jugador getJugadorActual() {
 		return jugadorActual;
 	}
@@ -66,11 +62,11 @@ public class Juego {
 		return ganador;
 	}
 
-	public static String getNombre() {
+	public String getNombre() {
 		return nombre;
 	}
 
-	public boolean JuegoTerminado() {
+	public boolean juegoTerminado() {
 		if (jugadores[0].getLegion().getVida() <= 0) {
 			juegoTerminado = true;
 			ganador = jugadores[1].getNombre();

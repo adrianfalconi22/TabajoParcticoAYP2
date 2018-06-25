@@ -1,24 +1,28 @@
 package modelo;
 
 import java.util.LinkedList;
-
-import controller.Controller;
+import java.util.List;
 
 public class Legion extends Unidad {
 
-	protected LinkedList<Unidad> legion;
+	protected List<Unidad> legion = new LinkedList<>();
 	private String nombreLegion;
 	private int auxiliares;
 	private int legionarios;
 	private int centuriones;
 
-	public Legion() {
+	public Legion(String nombre) {
 
-		legion = new LinkedList<>();
+		this.nombreLegion = nombre;
 
 	}
 
-	public double calcularVidaTotalDeLaLegion() {
+	public Legion() {
+
+	}
+
+	@Override
+	public double getVida() {
 
 		double vidaTotal = 0;
 		for (Unidad unidad : legion) {
@@ -31,7 +35,7 @@ public class Legion extends Unidad {
 		return vidaTotal;
 	}
 
-	public LinkedList<Unidad> getLegion() {
+	public List<Unidad> getLegion() {
 
 		return legion;
 	}
@@ -137,9 +141,8 @@ public class Legion extends Unidad {
 		//
 	}
 
-	@Override
-	public String toString() {
-		return nombreLegion + " ," + auxiliares + " ," + legionarios + " ,"
+	public String toString(String separador) {
+		return nombreLegion + separador + auxiliares + separador + legionarios + separador
 				+ centuriones;
 	}
 
@@ -198,11 +201,6 @@ public class Legion extends Unidad {
 		return unidades;
 	}
 
-	public void setNombre(String text1) {
-		this.nombreLegion = text1;
-
-	}
-
 	public void aumentarAuxiliares() {
 		auxiliares++;
 
@@ -216,5 +214,9 @@ public class Legion extends Unidad {
 	public void aumentarCenturiones() {
 		centuriones++;
 
+	}
+
+	public String getNombre() {
+		return nombreLegion;
 	}
 }

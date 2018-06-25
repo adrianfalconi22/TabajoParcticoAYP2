@@ -16,7 +16,6 @@ public class MainJuego {
 			IOException, ErrorAlLeerElArchivo {
 		Controller controller = new Controller();
 
-		controller.lector();
 		controller.iniciar();
 
 	}

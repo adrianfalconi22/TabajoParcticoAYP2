@@ -20,24 +20,25 @@ import modelo.Legionario;
 import modelo.TipoUnidad;
 
 public class Controller {
+	Juego juego;
 	Jugador j1 = null;
 	Jugador j2 = null;
 	int cantidad;
 	Jugador jugadorQueArmaPrimero = null;
 	Jugador jugadorQueArmaSegundo = null;
-	private BufferedReader br = null;
 	private List<Double> totalesPorPrecio = new ArrayList<>();
 	private String separador;
-	private static Legion legion;
 	private Scanner scan = new Scanner(System.in);
 	private int opcion;
 	int resultado1;
 	int resultado2;
 	String botonTirar;
+	static ArrayList<Legion> legionesPreArmadas = new ArrayList<Legion>();
 
 	public void iniciar() throws IOException, ErrorAlLeerElArchivo,
 			ErrorNombreInvalido {
-		System.out.println(Juego.getNombre());
+		juego = new Juego();
+		System.out.println(juego.getNombre());
 
 		System.out.println("Ingrese el nombre del jugador1");
 		String nombreJugador1 = scan.nextLine();
@@ -104,13 +105,7 @@ public class Controller {
 			opcion = scan.nextInt();
 
 			if (opcion == 1) {
-				mostrar1(jugadorQueArmaPrimero);
-				if (opcion == 1) {
-					mostrar2(jugadorQueArmaPrimero);
-				} else if (opcion == 2) {
-					mostrar3(jugadorQueArmaPrimero);
-
-				}
+				subMenuLegionesPreArmadas(jugadorQueArmaPrimero);
 
 			} else if (opcion == 2) {
 				System.out
@@ -156,20 +151,14 @@ public class Controller {
 
 			opcion = scan.nextInt();
 			if (opcion == 1) {
-				mostrar1(jugadorQueArmaSegundo);
-				if (opcion == 1) {
-
-					mostrar2(jugadorQueArmaSegundo);
-				} else if (opcion == 2) {
-					mostrar3(jugadorQueArmaSegundo);
-				}
+				subMenuLegionesPreArmadas(jugadorQueArmaSegundo);
 
 			} else if (opcion == 2) {
 				System.out
 						.println("ingrese la cantidad de auxiliares a comprar");
 				cantidad = scan.nextInt();
 
-				// jugadorQueArmaSegundo.comprar(TipoUnidad.AUXILIAR, cantidad);
+				jugadorQueArmaSegundo.comprar(TipoUnidad.AUXILIAR, cantidad);
 				System.out
 						.println(jugadorQueArmaSegundo.getPuntosParaComprar());
 
@@ -193,80 +182,108 @@ public class Controller {
 		} while (opcion != 5);
 	}
 
-	public void mostrar1(Jugador jugador) throws IOException,
-			ErrorAlLeerElArchivo {
-
-		System.out.println(jugador.getLegion().toString());
-
-		System.out.println("elija una legion\n 1:"
-				+ jugador.getLegion().toString() + "("
-				+ totalesPorPrecio.get(0) + ")\n 2="
-				+ jugador.getLegion().toString() + " ("
-				+ totalesPorPrecio.get(1) + ")");
+	public void subMenuLegionesPreArmadas(Jugador jugador) throws IOException,
+			ErrorNombreInvalido {
+		System.out.println("elija que extension quiere abrir \n" + "1:.FC\n"
+				+ "2:.FPC\n");
 		opcion = scan.nextInt();
+		if (opcion == 1) {
+			lectorFC(jugador);
+		}
+		if (opcion == 2) {
+			lectorFPC(jugador);
+		}
+
+	}
+
+	/** leo el archivo en extension FC */
+	public void lectorFC(Jugador jugador) throws ErrorNombreInvalido {
+		Double precio = 0.0;
+		separador = " ,";
+		try {
+			File file = null;
+
+			file = new File("Legiones.FC");
+
+			FileReader fileReader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			StringBuffer stringBuffer = new StringBuffer();
+			String line;
+
+			while ((line = bufferedReader.readLine()) != null) {
+				stringBuffer.append(line);
+				stringBuffer.append("\n");
+				// separador = " ,";
+				// precio = contadorTotal(line, separador);
+				// totalesPorPrecio.add(precio);
+
+			}
+			bufferedReader.close();
+			StringTokenizer stk = new StringTokenizer(stringBuffer.toString(),
+					"\n");
+			String[] legiones = new String[stk.countTokens()];
+
+			for (int i = 0; i < legiones.length; i++) {
+				legiones[i] = stk.nextToken();
+			}
+
+			System.out.println("Elija la Legion que desea comprar: \n");
+			for (int i = 0; i < legiones.length; i++) {
+				System.out.println("Legion " + (i + 1) + ": " + legiones[i]
+				// + "(" + totalesPorPrecio.get(i) + ")"
+						);
+			}
+			opcion = scan.nextInt();
+
+			creacionLegion(legiones[opcion - 1], separador, jugador);
+
+		} catch (IOException | NumberFormatException e) {
+			System.err.println(e.toString());
+
+		}
 
 	}
 
 	/** leo el archivo en extension FPC */
-	public void mostrar3(Jugador jugador) throws IOException {
+	public void lectorFPC(Jugador jugador) throws ErrorNombreInvalido {
+		Double precio = 0.0;
+		separador = " ;";
 		try {
-			br = new BufferedReader(new FileReader("Legiones.FPC"));
+			File file = null;
 
-			String line = br.readLine();
-			separador = " ;";
-			creacionLegion(line, separador, jugador);
+			file = new File("Legiones.FPC");
 
-		} catch (Exception e) {
-			// mandar exception
-		} finally {
-			if (null != br) {
-				br.close();
+			FileReader fileReader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			StringBuffer stringBuffer = new StringBuffer();
+			String line;
+
+			while ((line = bufferedReader.readLine()) != null) {
+				stringBuffer.append(line);
+				stringBuffer.append("\n");
 			}
-		}
-	}
+			bufferedReader.close();
+			StringTokenizer stk = new StringTokenizer(stringBuffer.toString(),
+					"\n");
+			String[] legiones = new String[stk.countTokens()];
 
-	/** leo el archivo en extension FC */
-	public void mostrar2(Jugador jugador) throws IOException {
-		br = new BufferedReader(new FileReader("Legiones.FC"));
+			for (int i = 0; i < legiones.length; i++) {
+				legiones[i] = stk.nextToken();
+			}
 
-		String line = br.readLine();
-		separador = " ,";
+			System.out.println("Elija la Legion que desea comprar: \n");
+			for (int i = 0; i < legiones.length; i++) {
+				System.out.println("Legion " + (i + 1) + ": " + legiones[i]
+				// +"("+ totalesPorPrecio.get(i + 1) + ")"
+						);
+			}
+			opcion = scan.nextInt();
 
-		try {
-			creacionLegion(line, separador, jugador);
-		} catch (NumberFormatException e) {
+			creacionLegion(legiones[opcion - 1], separador, jugador);
 
-			e.printStackTrace();
-		} catch (ErrorNombreInvalido e) {
+		} catch (IOException | NumberFormatException e) {
+			System.err.println(e.toString());
 
-			e.printStackTrace();
-		}
-		if (null != br) {
-			br.close();
-		}
-	}
-
-	/** leo los archivos para saber el precio de cada legion */
-	public void lector() {
-
-		try {
-
-			File archivo = new File("Legiones.FC");
-			br = new BufferedReader(new FileReader(archivo));
-			String line = br.readLine();
-			separador = " ,";
-			Double precio = contadorTotal(line, separador);
-			totalesPorPrecio.add(precio);
-
-			archivo = new File("Legiones.FPC");
-			br = new BufferedReader(new FileReader(archivo));
-			line = br.readLine();
-			separador = " ;";
-			precio = contadorTotal(line, separador);
-			totalesPorPrecio.add(precio);
-
-		} catch (Exception e) {
-			System.out.println(e);
 		}
 
 	}
@@ -309,11 +326,11 @@ public class Controller {
 		StringTokenizer st = new StringTokenizer(line, separador);
 		String text1 = "";
 		int contador = 0;
-		// legion = new Legion();
+
 		while (st.hasMoreTokens()) {
 			if (contador == 0) {
 				text1 = text1 + "" + st.nextToken();
-				jugador.getLegion().setNombre(text1);
+				jugador.setLegion(text1);
 			} else if (contador == 1) {
 				jugador.comprar(TipoUnidad.AUXILIAR,
 						Integer.parseInt(st.nextToken()));
@@ -330,16 +347,52 @@ public class Controller {
 			contador++;
 
 		}
-		jugador.getLegion().calcularVidaTotalDeLaLegion();
+		System.out.println(jugador.getLegion().toString(separador));
+		jugador.getLegion().getVida();
 	}
 
-	/** ataco y me fijo la vida que tiene cada ejercito */
-	public void ataque() {
+	/**
+	 * ataco y me fijo la vida que tiene cada ejercito
+	 * 
+	 */
+	public void ataque() throws ErrorAlLeerElArchivo, IOException,
+			ErrorNombreInvalido {
 
 		do {
+			int contadorDeAtaque = 0;
+			if (contadorDeAtaque > 0) {
+				System.out.println(jugadorQueArmaSegundo.getNombre()
+						+ " arma tu ejercito\n");
+				System.out.println("Puntos que posee para comprar: "
+						+ jugadorQueArmaSegundo.getNombre() + " "
+						+ jugadorQueArmaSegundo.getPuntosParaComprar());
+
+				System.out.println("Eige una opcion\n"
+						+ "1: elegir ejercito pre armado\n"
+						+ "2: comprar soldados auxiliares\n"
+						+ "3: comprar soldados legionarios\n"
+						+ "4: comprar soldados centuriones\n" + "5: salir\n");
+
+				opcion = scan.nextInt();
+
+				if (opcion == 1) {
+					try {
+						subMenuLegionesPreArmadas(jugadorQueArmaSegundo);
+					} catch (IOException e) {
+
+						e.printStackTrace();
+					}
+					if (opcion == 1) {
+						lectorFC(jugadorQueArmaSegundo);
+					} else if (opcion == 2) {
+						lectorFPC(jugadorQueArmaSegundo);
+
+					}
+
+				}
+			}
 			System.out.println(jugadorQueArmaSegundo.getNombre()
 					+ " presione una tecla para atacar");
-
 			String ataque1 = scan.next();
 			jugadorQueArmaSegundo.getLegion().atacarLegion(
 					jugadorQueArmaPrimero.getLegion());
@@ -348,30 +401,66 @@ public class Controller {
 			System.out.println("vida de la legion del jugador "
 					+ jugadorQueArmaPrimero.getNombre());
 			System.out.println(String.format("%.2f", jugadorQueArmaPrimero
-					.getLegion().calcularVidaTotalDeLaLegion()));
+					.getLegion().getVida()));
+
+			if (contadorDeAtaque > 0) {
+				System.out.println(jugadorQueArmaPrimero.getNombre()
+						+ " arma tu ejercito\n");
+				System.out.println("Puntos que posee para comprar: "
+						+ jugadorQueArmaPrimero.getNombre() + " "
+						+ jugadorQueArmaPrimero.getPuntosParaComprar());
+
+				System.out.println("Eige una opcion\n"
+						+ "1: elegir ejercito pre armado\n"
+						+ "2: comprar soldados auxiliares\n"
+						+ "3: comprar soldados legionarios\n"
+						+ "4: comprar soldados centuriones\n" + "5: salir\n");
+
+				opcion = scan.nextInt();
+
+				if (opcion == 1) {
+					subMenuLegionesPreArmadas(jugadorQueArmaPrimero);
+					if (opcion == 1) {
+						lectorFC(jugadorQueArmaPrimero);
+					} else if (opcion == 2) {
+						lectorFPC(jugadorQueArmaPrimero);
+
+					}
+
+				}
+			}
 			System.out.println(jugadorQueArmaPrimero.getNombre()
 					+ " presione una tecla para atacar");
-
 			String ataque2 = scan.next();
 			jugadorQueArmaPrimero.getLegion().atacarLegion(
 					jugadorQueArmaSegundo.getLegion());
 			System.out.println(String.format("%.2f", jugadorQueArmaPrimero
 					.getLegion().getDaño()));
-
 			System.out.println("vida de la legion del jugador"
 					+ jugadorQueArmaSegundo.getNombre());
 			System.out.println(String.format("%.2f", jugadorQueArmaSegundo
-					.getLegion().calcularVidaTotalDeLaLegion()));
+					.getLegion().getVida()));
 
-		} while (jugadorQueArmaPrimero.getLegion().contarUnidades() == 0
-				&& jugadorQueArmaSegundo.getLegion().contarUnidades() == 0);
-		if (jugadorQueArmaPrimero.getLegion().contarUnidades() == 0) {
-			System.out.println("gano jugador que arma segundo");
-		} else if (jugadorQueArmaSegundo.getLegion().contarUnidades() == 0) {
-			System.out.println("gano el que arma primero");
-		}
+			contadorDeAtaque++;
+		} while (jugadorQueArmaPrimero.getLegion().getVida() > 20);
+		System.out.println(juego.getGanador());
 	}
 
+	public static void setLegionPrearmada(Legion legion1) {
+		legionesPreArmadas.add(legion1);
+	}
+
+	public static Legion getLegionPrearmada(String nombreDeLaLegion) {
+		Legion legionAuxiliar = null;
+		for (Legion legion : legionesPreArmadas) {
+			if (nombreDeLaLegion.equals(legion.getNombre())) {
+				legionAuxiliar = legion;
+			}
+
+		}
+
+		return legionAuxiliar;
+	}
 	// public static void lectorDeArchivo() throws IOException {
 	//
 	// File archivo = new File("DosAuxiliares.FC");

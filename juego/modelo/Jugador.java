@@ -3,19 +3,17 @@ package modelo;
 public class Jugador {
 
 	private String nombre;
-	private Legion legion; // Segun el enunciado, los ejercitos se almacenan
-							// en memoria como un Composite. Yo volaria la
-							// clase y usaria una legion.
+	private Legion legion;
 	private int puntosParaComprar = 500000;
 	int valorDado;
 
 	public Jugador(String nombre) throws ErrorNombreInvalido {
 		setNombre(nombre);
-		legion = new Legion();
+
 	}
 
 	public Jugador() {
-		legion = new Legion();
+
 	}
 
 	public void setNombre(String nombre) throws ErrorNombreInvalido {
@@ -85,6 +83,10 @@ public class Jugador {
 				legion.aumentarCenturiones();
 			}
 
+		} else if (soldado.equals(TipoUnidad.LEGION)) {
+
+			legion.añadirUnidad(añadirLegion(soldado, cantidad));
+
 		}
 
 		restarPuntosParaComprar(soldado, cantidad);
@@ -93,11 +95,45 @@ public class Jugador {
 
 	public double getVidaDeLaLegion() {
 
-		return legion.calcularVidaTotalDeLaLegion();
+		return legion.getVida();
 	}
 
 	public double getDañoTotalDeLaLegion() {
-		// TODO Apéndice de método generado automáticamente
+
 		return legion.getDaño();
+	}
+
+	public void setLegion(String nombre) {
+		this.legion = new Legion(nombre);
+
+	}
+
+	private Legion añadirLegion(TipoUnidad soldado, int cantidad) {
+
+		Legion legionAuxiliar = new Legion();
+		if (soldado.equals(TipoUnidad.AUXILIAR)) {
+
+			for (int i = 0; i < cantidad; i++) {
+
+				legionAuxiliar.añadirUnidad(new Auxiliar());
+				legionAuxiliar.aumentarAuxiliares();
+			}
+
+		} else if (soldado.equals(TipoUnidad.LEGIONARIO)) {
+
+			for (int i = 0; i < cantidad; i++) {
+				legionAuxiliar.añadirUnidad(new Legionario());
+				legionAuxiliar.aumentarLegionarios();
+			}
+
+		} else if (soldado.equals(TipoUnidad.CENTURION)) {
+
+			for (int i = 0; i < cantidad; i++) {
+				legionAuxiliar.añadirUnidad(new Centurion());
+				legionAuxiliar.aumentarCenturiones();
+			}
+
+		}
+		return legionAuxiliar;
 	}
 }
