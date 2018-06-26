@@ -2,39 +2,27 @@ package modelo;
 
 public class Centurion extends Unidad {
 
-	private double daño;
-	private int costo;
 
 	public Centurion() {
-		this.tipo = TipoUnidad.CENTURION;
-		this.costo=200;
-		this.daño=1.0;
-	}
 
-	public double getVida() {
-
-		return super.getVida();
+		super(TipoUnidad.CENTURION, 200, 1);
 	}
 
 	@Override
-	public double getDaño() {
-		return daño;
-	}
+	public void restarVida(double danioRecibido) {
 
-	@Override
-	public double getCosto() {
-		return costo;
-	}
+		if (!esquivar()) {
 
-	@Override
-	public void setVida(double daño) {
-		if (probabilidad()) {
-			super.setVida(daño);
+			super.restarVida(danioRecibido);
+
 		}
 	}
 
-	public boolean estaVivo() {
+	private boolean esquivar() {
 
-		return super.estaVivo();
+		int esquivar = (int) (Math.random() * 100);
+		return esquivar >= 50;
+
 	}
+
 }

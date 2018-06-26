@@ -17,7 +17,7 @@ public class Jugador {
 	}
 
 	public void setNombre(String nombre) throws ErrorNombreInvalido {
-		if (nombre.equals(" ") || nombre == null) {
+		if (nombre.equals(" ") || nombre == null || nombre.equals("\n")) {
 			throw new ErrorNombreInvalido();
 
 		}
@@ -65,27 +65,27 @@ public class Jugador {
 
 			for (int i = 0; i < cantidad; i++) {
 
-				legion.añadirUnidad(new Auxiliar());
+				legion.aniadirUnidad(new Auxiliar());
 				legion.aumentarAuxiliares();
 			}
 
 		} else if (soldado.equals(TipoUnidad.LEGIONARIO)) {
 
 			for (int i = 0; i < cantidad; i++) {
-				legion.añadirUnidad(new Legionario());
+				legion.aniadirUnidad(new Legionario());
 				legion.aumentarLegionarios();
 			}
 
 		} else if (soldado.equals(TipoUnidad.CENTURION)) {
 
 			for (int i = 0; i < cantidad; i++) {
-				legion.añadirUnidad(new Centurion());
+				legion.aniadirUnidad(new Centurion());
 				legion.aumentarCenturiones();
 			}
 
 		} else if (soldado.equals(TipoUnidad.LEGION)) {
 
-			legion.añadirUnidad(añadirLegion(soldado, cantidad));
+			legion.aniadirUnidad(aniadirLegion(soldado, cantidad));
 
 		}
 
@@ -98,9 +98,9 @@ public class Jugador {
 		return legion.getVida();
 	}
 
-	public double getDañoTotalDeLaLegion() {
+	public double getDanioTotalDeLaLegion() {
 
-		return legion.getDaño();
+		return legion.getDanio();
 	}
 
 	public void setLegion(String nombre) {
@@ -108,28 +108,28 @@ public class Jugador {
 
 	}
 
-	private Legion añadirLegion(TipoUnidad soldado, int cantidad) {
+	private Legion aniadirLegion(TipoUnidad soldado, int cantidad) {
 
 		Legion legionAuxiliar = new Legion();
 		if (soldado.equals(TipoUnidad.AUXILIAR)) {
 
 			for (int i = 0; i < cantidad; i++) {
 
-				legionAuxiliar.añadirUnidad(new Auxiliar());
+				legionAuxiliar.aniadirUnidad(new Auxiliar());
 				legionAuxiliar.aumentarAuxiliares();
 			}
 
 		} else if (soldado.equals(TipoUnidad.LEGIONARIO)) {
 
 			for (int i = 0; i < cantidad; i++) {
-				legionAuxiliar.añadirUnidad(new Legionario());
+				legionAuxiliar.aniadirUnidad(new Legionario());
 				legionAuxiliar.aumentarLegionarios();
 			}
 
 		} else if (soldado.equals(TipoUnidad.CENTURION)) {
 
 			for (int i = 0; i < cantidad; i++) {
-				legionAuxiliar.añadirUnidad(new Centurion());
+				legionAuxiliar.aniadirUnidad(new Centurion());
 				legionAuxiliar.aumentarCenturiones();
 			}
 

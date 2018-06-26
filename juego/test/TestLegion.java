@@ -16,7 +16,7 @@ public class TestLegion {
 	public void añadirCenturiones() {
 		
 		for (int i = 0; i < 10; i++) {
-			legion1.añadirUnidad(new Centurion());
+			legion1.aniadirUnidad(new Centurion());
 		}
 
 		Assert.assertEquals(10, legion1.getCantidadDeCenturiones());
@@ -25,7 +25,7 @@ public class TestLegion {
 	@Test
 	public void calcularCostoDeLegion() {
 		for (int i = 0; i < 10; i++) {
-			legion1.añadirUnidad(new Centurion());
+			legion1.aniadirUnidad(new Centurion());
 		}
 		Assert.assertEquals(2000, legion1.getCosto(), 0.1);
 	}
@@ -33,27 +33,27 @@ public class TestLegion {
 	@Test
 	public void calcularDañoTotalDeXCenturiones() {
 		for (int i = 0; i < 100; i++) {
-			legion1.añadirUnidad(new Centurion());
+			legion1.aniadirUnidad(new Centurion());
 		}
-		Assert.assertEquals(1100, legion1.getDaño(), 0.1);
+		Assert.assertEquals(1100, legion1.getDanio(), 0.1);
 	}
 
 	@Test
 	public void calcularDañoTotal() {
 
 		for (int i = 0; i < 10; i++) {
-			legion1.añadirUnidad(new Centurion());
+			legion1.aniadirUnidad(new Centurion());
 		}
 		for (int i = 0; i < 10; i++) {
-			legion1.añadirUnidad(new Legionario());
+			legion1.aniadirUnidad(new Legionario());
 		}
-		Assert.assertEquals(34, legion1.getDaño(), 0.1);
+		Assert.assertEquals(34, legion1.getDanio(), 0.1);
 	}
 
 	@Test
 	public void calcularVidaTotal() {
 		for (int i = 0; i < 10; i++) {
-			legion1.añadirUnidad(new Legionario());
+			legion1.aniadirUnidad(new Legionario());
 		}
 		Assert.assertEquals(1000, legion1.getVida(), 0.1);
 	}
@@ -62,11 +62,11 @@ public class TestLegion {
 	public void atacarOtraLegion() {
 
 		for (int i = 0; i < 2; i++) {
-			legion1.añadirUnidad(new Legionario());
+			legion1.aniadirUnidad(new Legionario());
 		}
 
 		for (int i = 0; i < 2; i++) {
-			legion2.añadirUnidad(new Auxiliar());
+			legion2.aniadirUnidad(new Auxiliar());
 		}
 
 		legion1.atacarLegion(legion2);
@@ -79,17 +79,17 @@ public class TestLegion {
 	public void atacarOtraLegionDe10() {
 
 		for (int i = 0; i < 10; i++) {
-			legion1.añadirUnidad(new Legionario());
+			legion1.aniadirUnidad(new Legionario());
 		}
 
 		for (int i = 0; i < 10; i++) {
-			legion2.añadirUnidad(new Auxiliar());
+			legion2.aniadirUnidad(new Auxiliar());
 		}
 
 		legion1.atacarLegion(legion2);
 
-		double daño = legion1.getDaño();
-		Assert.assertEquals(1000 - daño, legion2.getVida(),
+		double danio = legion1.getDanio();
+		Assert.assertEquals(1000 - danio, legion2.getVida(),
 				0.1);
 	}
 
@@ -97,17 +97,17 @@ public class TestLegion {
 	public void atacarOtraLegionDe100() {
 
 		for (int i = 0; i < 100; i++) {
-			legion1.añadirUnidad(new Centurion());
+			legion1.aniadirUnidad(new Centurion());
 		}
 
 		for (int i = 0; i < 100; i++) {
-			legion2.añadirUnidad(new Auxiliar());
+			legion2.aniadirUnidad(new Auxiliar());
 		}
 
 		legion1.atacarLegion(legion2);
 
-		double daño = legion1.getDaño();
-		Assert.assertEquals(10000 - daño,
+		double danio = legion1.getDanio();
+		Assert.assertEquals(10000 - danio,
 				legion2.getVida(), 0.1);
 	}
 
@@ -115,17 +115,17 @@ public class TestLegion {
 	public void atacarOtraLegionDe100ALegionarios() {
 
 		for (int i = 0; i < 100; i++) {
-			legion1.añadirUnidad(new Centurion());
+			legion1.aniadirUnidad(new Centurion());
 		}
 
 		for (int i = 0; i < 100; i++) {
-			legion2.añadirUnidad(new Legionario());
+			legion2.aniadirUnidad(new Legionario());
 		}
 
 		legion1.atacarLegion(legion2);
 
-		double daño = legion1.getDaño();
-		Assert.assertEquals(10000 - daño,
+		double danio = legion1.getDanio();
+		Assert.assertEquals(10000 - danio,
 				legion2.getVida(), 0.1);
 	}
 
@@ -133,11 +133,11 @@ public class TestLegion {
 	public void atacarOtraLegionDe100Auxiliares() {
 
 		for (int i = 0; i < 100; i++) {
-			legion1.añadirUnidad(new Legionario());
+			legion1.aniadirUnidad(new Legionario());
 		}
 
 		for (int i = 0; i < 10; i++) {
-			legion2.añadirUnidad(new Auxiliar());
+			legion2.aniadirUnidad(new Auxiliar());
 		}
 		
 		legion2.imprimirListaDeLaUnidades();
@@ -145,7 +145,7 @@ public class TestLegion {
 		double vidaMaxima = legion2.getVida();
 		legion1.atacarLegion(legion2);
 
-		double daño = legion1.getDaño();
+		double daño = legion1.getDanio();
 		Assert.assertEquals(vidaMaxima - daño,
 				legion2.getVida(), 0.1);
 

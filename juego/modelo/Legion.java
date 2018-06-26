@@ -41,17 +41,17 @@ public class Legion extends Unidad {
 	}
 
 	@Override
-	public double getDaño() {
+	public double getDanio() {
 		double daño = 0;
 		double dañoDeCenturiones = 0;
 		for (Unidad unidad : legion) {
 
-			if (unidad.tipo == TipoUnidad.AUXILIAR
-					|| unidad.tipo == TipoUnidad.LEGIONARIO) {
+			if (unidad.equals(TipoUnidad.AUXILIAR)
+					|| unidad.equals(TipoUnidad.LEGIONARIO)) {
 
-				daño += unidad.getDaño();
-			} else if (unidad.tipo == TipoUnidad.CENTURION) {
-				dañoDeCenturiones += (unidad.getDaño() + ((double) getCantidadDeCenturiones() / 10));
+				daño += unidad.getDanio();
+			} else if (unidad.equals(TipoUnidad.CENTURION)) {
+				dañoDeCenturiones += (unidad.getDanio() + ((double) getCantidadDeCenturiones() / 10));
 			}
 		}
 
@@ -75,7 +75,7 @@ public class Legion extends Unidad {
 
 		for (Unidad unidad : legion) {
 
-			if (unidad.tipo == TipoUnidad.CENTURION) {
+			if (unidad.equals(TipoUnidad.CENTURION)) {
 				total++;
 			}
 		}
@@ -83,57 +83,57 @@ public class Legion extends Unidad {
 		return total;
 	}
 
-	public void añadirUnidad(Unidad unidad) {
+	public void aniadirUnidad(Unidad unidad) {
 		legion.add(unidad);
 
 	}
 
 	public void atacarLegion(Legion otraLegion) {
 		double vida = 0;
-		double controladorDeDaño = getDaño();
+		double controladorDeDanio = getDanio();
 
 		for (Unidad unidad : otraLegion.getLegion()) {
 
-			if (unidad.estaVivo() && unidad.tipo == TipoUnidad.AUXILIAR
-					&& controladorDeDaño > 0) {
+			if (unidad.estaVivo() && unidad.equals(TipoUnidad.AUXILIAR)
+					&& controladorDeDanio > 0) {
 
-				if (controladorDeDaño >= 100) {
+				if (controladorDeDanio >= 100) {
 					vida = unidad.getVida();
 
 					unidad.setVida(vida);
-					controladorDeDaño = controladorDeDaño - vida;
-				} else if (controladorDeDaño < 100) {
-					unidad.setVida(controladorDeDaño);
-					controladorDeDaño = controladorDeDaño - getDaño();
+					controladorDeDanio = controladorDeDanio - vida;
+				} else if (controladorDeDanio < 100) {
+					unidad.setVida(controladorDeDanio);
+					controladorDeDanio = controladorDeDanio - getDanio();
 
 				}
 
 			} else if (unidad.estaVivo() && !hayAuxiliares()
-					&& unidad.tipo == TipoUnidad.LEGIONARIO
-					&& controladorDeDaño > 0) {
-				if (controladorDeDaño >= 100) {
+					&& unidad.equals(TipoUnidad.LEGIONARIO)
+					&& controladorDeDanio > 0) {
+				if (controladorDeDanio >= 100) {
 					vida = unidad.getVida();
 
 					unidad.setVida(vida);
-					controladorDeDaño = controladorDeDaño - vida;
-				} else if (controladorDeDaño < 100) {
-					unidad.setVida(controladorDeDaño);
-					controladorDeDaño = controladorDeDaño - getDaño();
+					controladorDeDanio = controladorDeDanio - vida;
+				} else if (controladorDeDanio < 100) {
+					unidad.setVida(controladorDeDanio);
+					controladorDeDanio = controladorDeDanio - getDanio();
 
 				}
 
 			} else if (unidad.estaVivo()
 					&& (!hayAuxiliares() && !hayLegionarios())
-					&& unidad.tipo == TipoUnidad.CENTURION
-					&& controladorDeDaño > 0) {
-				if (controladorDeDaño >= 100) {
+					&& unidad.equals(TipoUnidad.CENTURION)
+					&& controladorDeDanio > 0) {
+				if (controladorDeDanio >= 100) {
 					vida = unidad.getVida();
 
 					unidad.setVida(vida);
-					controladorDeDaño = controladorDeDaño - vida;
-				} else if (controladorDeDaño < 100) {
-					unidad.setVida(controladorDeDaño);
-					controladorDeDaño = controladorDeDaño - getDaño();
+					controladorDeDanio = controladorDeDanio - vida;
+				} else if (controladorDeDanio < 100) {
+					unidad.setVida(controladorDeDanio);
+					controladorDeDanio = controladorDeDanio - getDanio();
 
 				}
 			}
@@ -162,7 +162,7 @@ public class Legion extends Unidad {
 		int totalDeAuxiliares = 0;
 
 		for (Unidad unidad : legion) {
-			if (unidad.tipo == TipoUnidad.AUXILIAR) {
+			if (unidad.equals(TipoUnidad.AUXILIAR)) {
 				totalDeAuxiliares++;
 			}
 		}
@@ -174,7 +174,7 @@ public class Legion extends Unidad {
 		int totalDeLegionarios = 0;
 
 		for (Unidad unidad : legion) {
-			if (unidad.tipo == (TipoUnidad.LEGIONARIO)) {
+			if (unidad.equals(TipoUnidad.LEGIONARIO)) {
 				totalDeLegionarios++;
 			}
 		}

@@ -7,7 +7,6 @@ import modelo.ErrorNombreInvalido;
 import modelo.Legion;
 import controller.Controller;
 
-// Habria que validar las entradas, sobre todo cuando se piden numeros (pongo otra cosa y rompe)
 public class MainJuego {
 
 	static Legion legion = null;

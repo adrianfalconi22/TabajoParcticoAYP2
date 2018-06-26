@@ -2,38 +2,62 @@ package modelo;
 
 public abstract class Unidad {
 
-	protected double vida;
-	protected double daño;
-	protected int costo;
-	protected TipoUnidad tipo;
+	private TipoUnidad tipo;
+	private double vida = 100;
+	private double costo;
+	private double danio;
 
-	public Unidad() {
-		vida = 100;
-	}
+	public Unidad(TipoUnidad tipo, double costo, double danio) {
+		setTipo(tipo);
+		this.costo = costo;
+		this.danio = danio;
 
-	public abstract double getDaño();
-
-	public abstract double getCosto();
-
-	public double getVida() {
-
-		return vida;
-	}
-
-	protected boolean probabilidad() {
-		int probabilidad = (int) Math.random() * 100;
-
-		return probabilidad > 50;
 	}
 
 	public boolean estaVivo() {
 
-		return vida > 0;
-	}
-
-	public void setVida(double daño) {
-		this.vida = vida - daño;
+		return vida >= 0;
 
 	}
 
+	public void setVida(double vida) {
+		this.vida = vida;
+	}
+
+	public Unidad() {
+
+	}
+
+	public double getVida() {
+		return vida;
+	}
+
+	public double getCosto() {
+		return costo;
+	}
+
+	public void setCosto(double costo) {
+		this.costo = costo;
+	}
+
+	public double getDanio() {
+		return danio;
+	}
+
+	public void setDanio(double danio) {
+		this.danio = danio;
+	}
+
+	public void restarVida(double danioRecibido) {
+		this.vida -= danioRecibido;
+
+	}
+
+	public TipoUnidad getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoUnidad tipo) {
+		this.tipo = tipo;
+	}
 }

@@ -82,14 +82,14 @@ public class TestJugador {
 		jugador1.setLegion("Pretoriana");
 		jugador2.comprar(TipoUnidad.CENTURION, 40);
 		System.out.println("----------");
-		System.out.println(jugador2.getDañoTotalDeLaLegion());
+		System.out.println(jugador2.getVidaDeLaLegion());
 		jugador2.comprar(TipoUnidad.AUXILIAR, 10);
 		jugador2.comprar(TipoUnidad.LEGIONARIO, 20);
 
 		jugador1.comprar(TipoUnidad.AUXILIAR, 10);
 
 		double vidaJugadorUno = jugador1.getVidaDeLaLegion();
-		double dañoJugadorDos = jugador2.getDañoTotalDeLaLegion();
+		double dañoJugadorDos = jugador2.getVidaDeLaLegion();
 		jugador2.getLegion().atacarLegion(jugador1.getLegion());
 
 		Assert.assertEquals(765, vidaJugadorUno - dañoJugadorDos, 0.1);
