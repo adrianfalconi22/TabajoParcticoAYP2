@@ -42,20 +42,13 @@ public class Legion extends Unidad {
 
 	@Override
 	public double getDanio() {
-		double daño = 0;
-		double dañoDeCenturiones = 0;
+		double danio = 0;
 		for (Unidad unidad : legion) {
-
-			if (unidad.equals(TipoUnidad.AUXILIAR)
-					|| unidad.equals(TipoUnidad.LEGIONARIO)) {
-
-				daño += unidad.getDanio();
-			} else if (unidad.equals(TipoUnidad.CENTURION)) {
-				dañoDeCenturiones += (unidad.getDanio() + ((double) getCantidadDeCenturiones() / 10));
+			if (unidad.estaVivo()){
+				danio += unidad.getDanio();
 			}
 		}
-
-		return daño + dañoDeCenturiones;
+		return danio * (1 + (double) getCantidadDeCenturiones() / 10);
 	}
 
 	@Override
@@ -75,7 +68,7 @@ public class Legion extends Unidad {
 
 		for (Unidad unidad : legion) {
 
-			if (unidad.equals(TipoUnidad.CENTURION)) {
+			if (unidad.getTipo().equals(TipoUnidad.CENTURION)) {
 				total++;
 			}
 		}
@@ -94,46 +87,41 @@ public class Legion extends Unidad {
 
 		for (Unidad unidad : otraLegion.getLegion()) {
 
-			if (unidad.estaVivo() && unidad.equals(TipoUnidad.AUXILIAR)
+			if (unidad.estaVivo() && unidad.getTipo().equals(TipoUnidad.AUXILIAR)
 					&& controladorDeDanio > 0) {
 
-				if (controladorDeDanio >= 100) {
+				if (controladorDeDanio >= unidad.getVida()) {
 					vida = unidad.getVida();
-
 					unidad.setVida(vida);
 					controladorDeDanio = controladorDeDanio - vida;
-				} else if (controladorDeDanio < 100) {
+				} else {
 					unidad.setVida(controladorDeDanio);
-					controladorDeDanio = controladorDeDanio - getDanio();
-
+					controladorDeDanio = 0;
 				}
 
 			} else if (unidad.estaVivo() && !hayAuxiliares()
-					&& unidad.equals(TipoUnidad.LEGIONARIO)
+					&& unidad.getTipo().equals(TipoUnidad.LEGIONARIO)
 					&& controladorDeDanio > 0) {
-				if (controladorDeDanio >= 100) {
+				if (controladorDeDanio >= unidad.getVida()) {
 					vida = unidad.getVida();
-
 					unidad.setVida(vida);
 					controladorDeDanio = controladorDeDanio - vida;
-				} else if (controladorDeDanio < 100) {
+				} else {
 					unidad.setVida(controladorDeDanio);
-					controladorDeDanio = controladorDeDanio - getDanio();
-
+					controladorDeDanio = 0;
 				}
 
 			} else if (unidad.estaVivo()
 					&& (!hayAuxiliares() && !hayLegionarios())
-					&& unidad.equals(TipoUnidad.CENTURION)
+					&& unidad.getTipo().equals(TipoUnidad.CENTURION)
 					&& controladorDeDanio > 0) {
-				if (controladorDeDanio >= 100) {
+				if (controladorDeDanio >= unidad.getVida()) {
 					vida = unidad.getVida();
-
 					unidad.setVida(vida);
 					controladorDeDanio = controladorDeDanio - vida;
-				} else if (controladorDeDanio < 100) {
+				} else {
 					unidad.setVida(controladorDeDanio);
-					controladorDeDanio = controladorDeDanio - getDanio();
+					controladorDeDanio = 0;
 
 				}
 			}

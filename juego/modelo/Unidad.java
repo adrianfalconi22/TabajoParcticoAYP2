@@ -21,7 +21,7 @@ public abstract class Unidad {
 	}
 
 	public void setVida(double vida) {
-		this.vida = vida;
+		this.vida -= vida;
 	}
 
 	public Unidad() {

@@ -22,7 +22,8 @@ public class Controller {
 	int cantidad;
 	Jugador jugadorQueArmaPrimero = null;
 	Jugador jugadorQueArmaSegundo = null;
-	private List<Double> totalesPorPrecio = new ArrayList<>();
+	private List<Double> totalesPorPrecioFC = new ArrayList<>();
+	private List<Double> totalesPorPrecioFPC = new ArrayList<>();
 	private String separador;
 	private Scanner scan = new Scanner(System.in);
 	private int opcion;
@@ -53,6 +54,7 @@ public class Controller {
 	public void crearJugador1(String nombreJugador1) {
 		try {
 			j1 = new Jugador(nombreJugador1);
+			juego.setJugadorUno(j1);
 
 		} catch (ErrorNombreInvalido e) {
 			System.out.println(e.getMessage());
@@ -64,6 +66,7 @@ public class Controller {
 	public void crearJugador2(String nombreJugador2) {
 		try {
 			j2 = new Jugador(nombreJugador2);
+			juego.setJugadorDos(j2);
 
 		} catch (ErrorNombreInvalido e) {
 			System.out.println(e.getMessage());
@@ -148,7 +151,7 @@ public class Controller {
 			}
 
 		} while (opcion != 5
-				|| jugadorQueArmaPrimero.getPuntosParaComprar() >= 0);
+				&& jugadorQueArmaPrimero.getPuntosParaComprar() >= 0);
 
 		do {
 			System.out.println(jugadorQueArmaSegundo.getNombre()
@@ -193,7 +196,7 @@ public class Controller {
 
 			}
 		} while (opcion != 5
-				|| jugadorQueArmaPrimero.getPuntosParaComprar() >= 0);
+				&& jugadorQueArmaSegundo.getPuntosParaComprar() >= 0);
 	}
 
 	public void subMenuLegionesPreArmadas(Jugador jugador) throws IOException,
@@ -229,7 +232,7 @@ public class Controller {
 				stringBuffer.append("\n");
 				separador = ",";
 				precio = contadorTotal(line, separador);
-				totalesPorPrecio.add(precio);
+				totalesPorPrecioFC.add(precio);
 
 			}
 			bufferedReader.close();
@@ -244,7 +247,7 @@ public class Controller {
 			System.out.println("Elija la Legion que desea comprar: \n");
 			for (int i = 0; i < legiones.length; i++) {
 				System.out.println("Legion " + (i + 1) + ": " + legiones[i]
-						+ "(" + totalesPorPrecio.get(i) + ")");
+						+ "(" + totalesPorPrecioFC.get(i) + ")");
 			}
 			opcion = scan.nextInt();
 
@@ -276,7 +279,7 @@ public class Controller {
 				stringBuffer.append("\n");
 				separador = ";";
 				precio = contadorTotal(line, separador);
-				totalesPorPrecio.add(precio);
+				totalesPorPrecioFPC.add(precio);
 			}
 			bufferedReader.close();
 			StringTokenizer stk = new StringTokenizer(stringBuffer.toString(),
@@ -290,7 +293,7 @@ public class Controller {
 			System.out.println("Elija la Legion que desea comprar: \n");
 			for (int i = 0; i < legiones.length; i++) {
 				System.out.println("Legion " + (i + 1) + ": " + legiones[i]
-						+ "(" + totalesPorPrecio.get(i) + ")");
+						+ "(" + totalesPorPrecioFPC.get(i) + ")");
 			}
 			opcion = scan.nextInt();
 
@@ -352,7 +355,8 @@ public class Controller {
 				nombre = cadena.substring(0, pos);
 			}
 			jugador.setLegion(nombre);
-
+			// podria contar los tokens y ver como crearlo si son 5
+			// int frequency = new StringTokenizer(myString, " ").countTokens();
 			int pos2 = cadena.indexOf(separador, pos + 2);
 			int cantAuxiliares = Integer.parseInt(cadena.substring(pos + 2,
 					pos2));
@@ -452,7 +456,7 @@ public class Controller {
 					+ " presione una tecla para atacar");
 			String ataque2 = scan.next();
 			jugadorQueArmaPrimero.getLegion().atacarLegion(
-					jugadorQueArmaSegundo.getLegion());
+					jugadorQueArmaSegundo.getLegion());// ver el getdanio
 			System.out.println(String.format("%.2f", jugadorQueArmaPrimero
 					.getLegion().getDanio()));
 			System.out.println("vida de la legion del jugador"
@@ -461,7 +465,7 @@ public class Controller {
 					.getLegion().getVida()));
 
 			contadorDeAtaque++;
-		} while (jugadorQueArmaPrimero.getLegion().getVida() > 20);
+		} while (!juego.juegoTerminado());
 		System.out.println(juego.getGanador());
 	}
 

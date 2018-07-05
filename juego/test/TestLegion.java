@@ -47,7 +47,7 @@ public class TestLegion {
 		for (int i = 0; i < 10; i++) {
 			legion1.aniadirUnidad(new Legionario());
 		}
-		Assert.assertEquals(34, legion1.getDanio(), 0.1);
+		Assert.assertEquals(48, legion1.getDanio(), 0.1);
 	}
 
 	@Test
@@ -136,11 +136,9 @@ public class TestLegion {
 			legion1.aniadirUnidad(new Legionario());
 		}
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 100; i++) {
 			legion2.aniadirUnidad(new Auxiliar());
 		}
-		
-		legion2.imprimirListaDeLaUnidades();
 
 		double vidaMaxima = legion2.getVida();
 		legion1.atacarLegion(legion2);
@@ -148,10 +146,6 @@ public class TestLegion {
 		double daño = legion1.getDanio();
 		Assert.assertEquals(vidaMaxima - daño,
 				legion2.getVida(), 0.1);
-
-		System.out.println("--------");
-		
-		legion2.imprimirListaDeLaUnidades();
 	}
 
 }

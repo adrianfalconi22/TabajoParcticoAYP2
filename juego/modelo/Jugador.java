@@ -8,6 +8,7 @@ public class Jugador {
 	int valorDado;
 
 	public Jugador(String nombre) throws ErrorNombreInvalido {
+
 		setNombre(nombre);
 
 	}

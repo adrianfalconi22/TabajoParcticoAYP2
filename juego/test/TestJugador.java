@@ -20,8 +20,6 @@ public class TestJugador {
 	@Test(expected = ErrorNombreInvalido.class)
 	public void testNombreInvalido() throws ErrorNombreInvalido {
 		Jugador jugador = new Jugador(" ");
-
-		assertEquals("adrian", jugador.getNombre());
 	}
 
 	@Test
@@ -81,18 +79,14 @@ public class TestJugador {
 		jugador2.setLegion("Romana");
 		jugador1.setLegion("Pretoriana");
 		jugador2.comprar(TipoUnidad.CENTURION, 40);
-		System.out.println("----------");
-		System.out.println(jugador2.getVidaDeLaLegion());
 		jugador2.comprar(TipoUnidad.AUXILIAR, 10);
 		jugador2.comprar(TipoUnidad.LEGIONARIO, 20);
 
 		jugador1.comprar(TipoUnidad.AUXILIAR, 10);
 
-		double vidaJugadorUno = jugador1.getVidaDeLaLegion();
-		double dañoJugadorDos = jugador2.getVidaDeLaLegion();
 		jugador2.getLegion().atacarLegion(jugador1.getLegion());
 
-		Assert.assertEquals(765, vidaJugadorUno - dañoJugadorDos, 0.1);
+		Assert.assertEquals(642.5, jugador1.getVidaDeLaLegion() , 17.5);
 
 	}
 

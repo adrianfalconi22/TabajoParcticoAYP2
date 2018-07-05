@@ -3,7 +3,7 @@ package modelo;
 public class Juego {
 
 	private static final String nombre = "Lucha Romana";
-	private Jugador[] jugadores;
+	private Jugador[] jugadores = new Jugador[2];
 	private boolean juegoTerminado = false;
 	private Jugador jugadorActual;
 	private Jugador jugadorRival;
@@ -11,30 +11,39 @@ public class Juego {
 
 	/** Constructor del juego se crea con 2 jugadores */
 	public Juego(Jugador jugador1, Jugador jugador2) {
-		this.jugadorActual = jugador1;
-		this.jugadorRival = jugador2;
+		// this.jugadorActual = jugador1;
+		// this.jugadorRival = jugador2;
 
-		jugadores[0] = jugadorActual;
-		jugadores[1] = jugadorRival;
+		jugadores[0] = jugador1;
+		jugadores[1] = jugador2;
 
+	}
+
+	public void setJugadorUno(Jugador jugador) {
+		this.jugadores[0] = jugador;
+	}
+
+	public void setJugadorDos(Jugador jugador) {
+		this.jugadores[1] = jugador;
 	}
 
 	public Juego() {
 
 	}
 
-	public void setJugadorActualYRival() {
-		if (jugadorActual.equals(jugadores[0])
-				&& jugadorRival.equals(jugadores[1])) {
-			jugadorActual = jugadores[1];
-			jugadorRival = jugadores[0];
-		} else if (jugadorActual.equals(jugadores[1])
-				&& jugadorRival.equals(jugadores[0])) {
-			jugadorActual = jugadores[0];
-			jugadorRival = jugadores[1];
-		}
-
-	}
+	//
+	// public void setJugadorActualYRival() {
+	// if (jugadorActual.equals(jugadores[0])
+	// && jugadorRival.equals(jugadores[1])) {
+	// jugadorActual = jugadores[1];
+	// jugadorRival = jugadores[0];
+	// } else if (jugadorActual.equals(jugadores[1])
+	// && jugadorRival.equals(jugadores[0])) {
+	// jugadorActual = jugadores[0];
+	// jugadorRival = jugadores[1];
+	// }
+	//
+	// }
 
 	/** retorna el nombre del primer jugador */
 	public String getNombreJugador1() {
@@ -67,6 +76,7 @@ public class Juego {
 	}
 
 	public boolean juegoTerminado() {
+
 		if (jugadores[0].getLegion().getVida() <= 0) {
 			juegoTerminado = true;
 			ganador = jugadores[1].getNombre();

@@ -14,7 +14,7 @@ public class Auxiliar extends Unidad {
 		if (!ataqueEfectivo()) {
 			return 0;
 		}
-		return getDanio();
+		return super.getDanio();
 	}
 
 	
